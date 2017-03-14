@@ -1,0 +1,10 @@
+<h1 class="page-header">{{title}}</h1>
+<img ng-src="{{movie.images.large}}" alt="{{movie.title}}">
+<p>{{movie.summary}}</p>
+<img ng-src="{{cast.avatars.large}}" ng-repeat="cast in movie.casts" alt="">
+<div class="loader" ng-show="loading">
+  <i class="face"></i>
+  <i class="balls"></i>
+  <i class="balls"></i>
+  <i class="balls"></i>
+</div>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Douban Movie</title>
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+  <link href="css/app.css" rel="stylesheet">
+  <!-- 
+    你请求了 http://127.0.0.1:2080 ，服务端响应了 hello world
+    当浏览器收到 hello world 的时候会当成 css 去解析，
+    而因为浏览器对 css 有容错处理，所以这里什么都看不到
+   -->
+  <!-- <link rel="stylesheet" href="http://127.0.0.1:2080"> -->
+</head>
+
+<body ng-app="app">
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">豆瓣电影</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">Dashboard</a></li>
+        </ul>
+        <form class="navbar-form navbar-right" ng-controller="SearchController as vm" ng-submit="vm.search(vm.searchText)">
+          <input type="text" ng-model="vm.searchText" class="form-control" placeholder="搜索...">
+        </form>
+      </div>
+    </div>
+  </nav>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-2 sidebar">
+        <ul auto-active class="nav nav-sidebar">
+          <li class="active"><a href="#!/list/in_theaters">正在热映</a></li>
+          <li><a href="#!/list/coming_soon">即将上映</a></li>
+          <li><a href="#!/list/top250">Top 250</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-view></div>
+    </div>
+  </div>
+  <script src="node_modules/angular/angular.js"></script>
+  <script src="node_modules/angular-route/angular-route.js"></script>
+  <script src="app/app.js"></script>
+  <script src="app/configs/router.js"></script>
+  <script src="app/configs/sce.js"></script>
+  <script src="app/movie-list/list.controller.js"></script>
+  <script src="app/movie-list/list.filter.js"></script>
+  <script src="app/services/http-service.js"></script>
+  <script src="app/movie-detail/detail.controller.js"></script>
+  <!-- <script src="app/jsonp.js"></script> -->
+  <!-- <script>
+    function callback(data) {
+      console.log(data)
+    }
+  </script> -->
+  <!-- 
+    当对方响应回来这个一个字符串的时候，上面的 callback 就有用了 
+    callback({数据})
+    现在的问题是：服务端的 callback 是写死的，应该是由 客户端告诉服务端我的 callbackname 是啥
+    如何告诉服务端我的 callbackname 叫什么？
+      查询字符串
+  -->
+  <!-- 
+    该 script 标签指定的请求路径收到的响应内容是：
+      callback(data)
+    浏览器把 script 标签发送请求拿到的响应数据当成 js 去解析执行
+    这里就是调用 callback(data) 里面传递了真实的我们想要的数据
+   -->
+
+   <!-- 
+    现在服务端是写死的响应字符串，也就是咱们的全局的回调函数名，
+    如果一旦客户端的全局回到函数名称发生改变，就会导致调用失败
+    解决办法：不要让服务端写死这个 callbackName
+      1. 客户端发送请求的时候，在请求路径通过查询字符串告诉服务端我的 callbackName 叫啥
+      2. 服务器将客户端请求路径中的查询字符串 callbackName 解析出来，拿到对应的 value
+      3. 服务端在发送响应数据的时候，callbackName 指定为解析出来的 callbackName
+    -->
+  <!-- <script src="http://127.0.0.1:2080?callbackname=callback"></script> -->
+  
+</body>
+
+</html>

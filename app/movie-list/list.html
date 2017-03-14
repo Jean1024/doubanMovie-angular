@@ -1,0 +1,34 @@
+<h1 class="page-header">{{ vm.title }}</h1>
+<div class="list-group">
+  <a href="#!/detail/{{ movie.id }}" class="list-group-item" ng-repeat="movie in vm.movies">
+    <span class="badge">{{ movie.rating.average }}</span>
+    <div class="media">
+      <div class="media-left" href="#">
+        <img ng-src="{{ movie.images.small }}" alt="{{ movie.alt }}">
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading">{{ movie.title }}</h3>
+        <p>类型：{{ movie.genres.join('、') }}</p>
+        <p>导演：{{ movie.directors | getNames:'----' }}</span>
+        </p>
+        <p>主演：{{ movie.casts | getNames:'、' }}</span>
+        </p>
+      </div>
+    </div>
+  </a>
+</div>
+<div class="loader" ng-show="vm.loading">
+  <i class="face"></i>
+  <i class="balls"></i>
+  <i class="balls"></i>
+  <i class="balls"></i>
+</div>
+<p>总共：{{ vm.total }}条记录，第{{ vm.page }}/{{ vm.totalPage }}页</p>
+<nav>
+  <ul class="pager">
+    <!-- <li><a href="#!/in_theaters/{{ vm.page - 1 }}">上一页</a></li>
+    <li><a href="#!/in_theaters/{{ vm.page + 1 }}">下一页</a></li> -->
+    <li><a ng-click="vm.go(vm.page - 1)">上一页</a></li>
+    <li><a ng-click="vm.go(vm.page + 1)">下一页</a></li>
+  </ul>
+</nav>
